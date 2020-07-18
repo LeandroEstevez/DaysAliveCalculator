@@ -6,6 +6,9 @@
 package daysalivecalculator;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,73 +21,65 @@ public class DaysAliveCalculator {
      */
     public static void main(String[] args) {
         
-        Scanner input = new Scanner(System.in);
+        Logger log = Logger.getGlobal();
         
+        log.setLevel(Level.OFF);
         
-        int month = 0;
+        int monthNumber = 0;
         
-        System.out.print("Enter the month you were born: ");
+        String month = JOptionPane.showInputDialog("Enter the month you were born: ");
         
-        month = input.nextInt();
+        monthNumber = Integer.parseInt(month);
+       
         
-        System.out.println();
-        
-        while(month <= 0 || month > 12) {
+        while(monthNumber <= 0 || monthNumber > 12) {
 
-            System.out.print("Please enter a number greater than 0 and equal or smaller than 12: ");
-
-            month = input.nextInt();
+            month = JOptionPane.showInputDialog("Please enter an integer number bettwen 1 and 12: ");
             
-            System.out.println();
-
+            monthNumber = Integer.parseInt(month);
+        
         }
         
         
-        int day = 0;
+        int dayNumber = 0;
         
-        System.out.print("Enter the day you were born: ");
+        String day = JOptionPane.showInputDialog("Enter the day you were born: ");
         
-        day = input.nextInt();
+        dayNumber = Integer.parseInt(day);
+       
         
-        System.out.println();
-        
-        while(day <= 0 || day >= 32) {
+        while(dayNumber <= 0 || dayNumber >= 32) {
 
-            System.out.print("Please enter a number greater than 0 and smaller than 32: ");
-
-            day = input.nextInt();
+            day = JOptionPane.showInputDialog("Please enter a number greater than 0 and smaller than 32: ");
             
-            System.out.println();
-
+            dayNumber = Integer.parseInt(day);
+        
         }
         
         
-        int year = 0;
+        int yearNumber = 0;
         
-        System.out.print("Enter the year you were born: ");
+        String year = JOptionPane.showInputDialog("Enter the year you were born: ");
         
-        year = input.nextInt();
+        yearNumber = Integer.parseInt(year);
+       
         
-        System.out.println();
-        
-        while(year <= 1899 || year >= 2020) {
+        while(yearNumber <= 1899 || yearNumber >= 2020) {
 
-            System.out.print("Please enter a number greater than 1899 and smaller than 2020: ");
-
-            year = input.nextInt();
+            year = JOptionPane.showInputDialog("Please enter a number greater than 1899 and smaller than 2020: ");
             
-            System.out.println();
-
+            yearNumber = Integer.parseInt(year);
+        
         }
         
         
         Day today = new Day();
         
-        Day birthDate = new Day(year, month, day);
+        Day birthDate = new Day(yearNumber, monthNumber, dayNumber);
         
         int daysAlive = today.daysFrom(birthDate);
         
-        System.out.print("You have been alive " + daysAlive + " days.");
+        JOptionPane.showMessageDialog(null, "You have been alive " + daysAlive + " days.");
         
     }
     

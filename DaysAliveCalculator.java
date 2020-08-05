@@ -5,6 +5,7 @@
  */
 package daysalivecalculator;
 
+import static java.lang.System.exit;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,66 +21,140 @@ public class DaysAliveCalculator {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+    
+        getDate();
         
-        Logger log = Logger.getGlobal();
+    }
+    
+    public static int checkDate(String date) {
         
-        log.setLevel(Level.OFF);
-        
-        int monthNumber = 0;
-        
-        String month = JOptionPane.showInputDialog("Enter the month you were born: ");
-        
-        monthNumber = Integer.parseInt(month);
-       
-        
-        while(monthNumber <= 0 || monthNumber > 12) {
-
-            month = JOptionPane.showInputDialog("Please enter an integer number bettwen 1 and 12: ");
+        // Check length
+        if(date.length() != 10) {
             
-            monthNumber = Integer.parseInt(month);
-        
+            return 0;
+            
         }
         
-        
-        int dayNumber = 0;
-        
-        String day = JOptionPane.showInputDialog("Enter the day you were born: ");
-        
-        dayNumber = Integer.parseInt(day);
-       
-        
-        while(dayNumber <= 0 || dayNumber >= 32) {
-
-            day = JOptionPane.showInputDialog("Please enter a number greater than 0 and smaller than 32: ");
-            
-            dayNumber = Integer.parseInt(day);
-        
+        // Check for "/"
+        if(!(date.substring(2, 3).equals("/") && date.substring(5, 6).equals("/"))) {
+                
+            return 0;
+                
         }
         
-        
-        int yearNumber = 0;
-        
-        String year = JOptionPane.showInputDialog("Enter the year you were born: ");
-        
-        yearNumber = Integer.parseInt(year);
-       
-        
-        while(yearNumber <= 1899 || yearNumber >= 2020) {
-
-            year = JOptionPane.showInputDialog("Please enter a number greater than 1899 and smaller than 2020: ");
+        // Check that all characters are digits
+        for(int i = 0; i < date.length(); i++) {
             
-            yearNumber = Integer.parseInt(year);
-        
+            if(i == 2 || i == 5) {
+                continue;
+            }
+            
+            if(!Character.isDigit(date.charAt(i))) {
+                return 0;
+            }
+            
         }
         
+        // Check if month is valid
+        int month = Integer.parseInt(date.substring(0, 2));
         
-        Day today = new Day();
+        if(month > 12 || month <= 0) {
+                
+            return 0;
+                
+        }
         
-        Day birthDate = new Day(yearNumber, monthNumber, dayNumber);
+        // Check if day is valid
+        int day = Integer.parseInt(date.substring(3, 5));
         
-        int daysAlive = today.daysFrom(birthDate);
+        if(day > 31 || day <= 0) {
+                
+            return 0;
+                
+        }
         
-        JOptionPane.showMessageDialog(null, "You have been alive " + daysAlive + " days.");
+        // Check if year is valid
+        int year = Integer.parseInt(date.substring(6));
+        
+        if(year > 2020 || year < 1899) {
+                
+            return 0;
+                
+        }
+              
+        return 1;
+        
+    }
+    
+    public static int getMonth(String date) {
+        
+        int month = Integer.parseInt(date.substring(0, 2));
+        
+        return month;
+        
+    }
+    
+    public static int getDay(String date) {
+        
+        int day = Integer.parseInt(date.substring(3, 5));
+        
+        return day;
+        
+    }
+    
+    public static int getYear(String date) {
+        
+        int year = Integer.parseInt(date.substring(6));
+        
+        return year;
+        
+    }
+    
+    public static int calculateDays(String date) {
+        
+        int days = 0;
+        
+        return days;
+    }
+    
+    public static void getDate() {
+        
+        String date = JOptionPane.showInputDialog("Enter the date you were born in the format mm/dd/yyyy");
+        
+        if(date == null) {
+            
+            JOptionPane.showMessageDialog(null, "Thank you for using Days Alive Calculator");
+            
+            exit(0);
+            
+        } else {
+            
+            int valid = checkDate(date);
+            
+            if(valid == 0) {
+            
+                JOptionPane.showMessageDialog(null, "Please enter a valid date in the format mm/dd/yyyy");
+                getDate();
+            
+            } else {
+                
+                int month = getMonth(date);
+                int day = getDay(date);
+                int year = getYear(date);
+                
+                Day today = new Day();
+                        
+                Day birthDate = new Day(year, month, day);
+                        
+                int daysAlive = today.daysFrom(birthDate);
+                
+                JOptionPane.showMessageDialog(null, "You have been alive " + daysAlive + " days.");
+                
+                exit(0);
+                
+            }
+            
+        }
         
     }
     
